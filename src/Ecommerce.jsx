@@ -1,23 +1,33 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart, removeProductFromCart } from "./actions";
-import { Row, Table, Column } from "./Ecommerce.styles";
+import {
+  Row,
+  Table,
+  Column,
+  StyledButton,
+  Container,
+} from "./Ecommerce.styles";
 
 const AddProductButton = () => {
   const dispatch = useDispatch();
 
-  const handleOnlick = () => {
+  const handleOnClick = () => {
     const ran = Math.floor(Math.random() * 1000);
-    const ranPrice = Math.floor(Math.random() * 20);
+    const randPrice = Math.floor(Math.random() * 20);
     const newProduct = {
       id: ran,
       name: `p-${ran}`,
       quantity: 1,
-      price: ranPrice,
+      price: randPrice,
     };
     dispatch(addProductToCart(newProduct));
   };
 
-  return <button onClick={() => handleOnlick()}>Add a new product</button>;
+  return (
+    <StyledButton onClick={() => handleOnClick()}>
+      Add a new product
+    </StyledButton>
+  );
 };
 
 const Ecommerce = () => {
@@ -33,8 +43,11 @@ const Ecommerce = () => {
   };
 
   return (
-    <>
-      <AddProductButton />
+    <Container>
+      <Row spaceAround>
+        <AddProductButton />
+        <p>total price: {total}</p>
+      </Row>
       <div>
         <Table>
           <Row>
@@ -47,6 +60,7 @@ const Ecommerce = () => {
             <Column>
               <h5>Price</h5>
             </Column>
+            <Column />
             <Column />
           </Row>
           {products.map((product) => {
@@ -62,18 +76,21 @@ const Ecommerce = () => {
                   <p>{product.price}</p>
                 </Column>
                 <Column>
-                  <button onClick={() => handleAdd(product)}>Add</button>
-                  <button onClick={() => handleRemove(product.id)}>
+                  <StyledButton onClick={() => handleAdd(product)}>
+                    Add
+                  </StyledButton>
+                </Column>
+                <Column>
+                  <StyledButton onClick={() => handleRemove(product.id)}>
                     Remove
-                  </button>
+                  </StyledButton>
                 </Column>
               </Row>
             );
           })}
         </Table>
-        <p>total price: {total}</p>
       </div>
-    </>
+    </Container>
   );
 };
 
